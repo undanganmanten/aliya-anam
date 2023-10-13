@@ -97,27 +97,16 @@ function showSlides() {
 
 
 
+//firebase
 var firebaseConfig = {
-  apiKey: "AIzaSyBbKtu4XbMvEFZDb-FGgMxW40RyNbllHfE",
-  authDomain: "qonita-9d7ca.firebaseapp.com",
-  databaseURL: "https://qonita-9d7ca-default-rtdb.firebaseio.com",
-  projectId: "qonita-9d7ca",
-  storageBucket: "qonita-9d7ca.appspot.com",
-  messagingSenderId: "295376988706",
-  appId: "1:295376988706:web:f6f7bde6ae3ddc6b88f87b",
-  measurementId: "G-4H0HZGXW5P"
+    apiKey: "AIzaSyDDi2sRsUuXH52Cguo1hAGTwjO3NCl_09I",
+    authDomain: "zulfa-d727f.firebaseapp.com",
+    databaseURL: "https://zulfa-d727f-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "zulfa-d727f",
+    storageBucket: "zulfa-d727f.appspot.com",
+    messagingSenderId: "1087071363347",
+    appId: "1:1087071363347:w eb:4dd886154a1796c49bbae6"
 };
-
-// var firebaseConfig = {
-//     apiKey: "AIzaSyAcRO57X8UNRAZ0rLhGjYk2ttXX95VtI84",
-//     authDomain: "comments-7198f.firebaseapp.com",
-//     databaseURL: "https://comments-7198f-default-rtdb.firebaseio.com",
-//     projectId: "comments-7198f",
-//     storageBucket: "comments-7198f.appspot.com",
-//     messagingSenderId: "376364050831",
-//     appId: "1:376364050831:web:14e14651ae6a51eade83fa",
-//     measurementId: "G-3W394RQG3Y"
-//   };
   
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
@@ -125,100 +114,70 @@ var firebaseConfig = {
   function add_task(){
     input_box = document.getElementById("message");
     input_date = document.getElementById("name");
-    input_hadir = document.getElementById("presention");
   
-    if(input_box.value.length != 0 && input_date.value.length != 0 && input_hadir.value.length != 0){
+    if(input_box.value.length != 0 && input_date.value.length != 0){
       // our boxes have data and we take database
-      var key = firebase.database().ref().child("mayadito").push().key;
+      var key = firebase.database().ref().child("pina").push().key;
       var task = {
-        title: input_box.value,
-        date: input_date.value,
-        hadir: input_hadir.value,
+        ucapan: input_box.value,
+        nama: input_date.value,
         key: key
       };
   
       var updates = {};
-      updates["/mayadito/" + key] = task;
+      updates["/pina/" + key] = task;
       firebase.database().ref().update(updates);
       create_unfinished_task();
       swal("Pesan telah terkirim", "Silakan cek pesan anda di kolom yang sudah ada", "success");
-      document.getElementById("name").value=''; 
-      document.getElementById("message").value='';
+      input_box.value='';
+      input_date.value='';
     }
   }
-//date disini tuh nama orangnya ya
 
-let presentHadir = 0;
-let presentTidakHadir = 0;
-let presentRagu = 0;
+
 function create_unfinished_task(){
-  unfinished_task_container = document.getElementsByClassName("container1")[0];
-  unfinished_task_container.innerHTML = "";
+    unfinished_task_container = document.getElementsByClassName("container1")[0];
+    unfinished_task_container.innerHTML = "";
   
-  task_array = [];
-  firebase.database().ref("mayadito").once('value', function(snapshot) {
+    task_array = [];
+    firebase.database().ref("pina").once('value', function(snapshot) {
       snapshot.forEach(function(childSnapshot) {
-      var childKey = childSnapshot.key;
-      var childData = childSnapshot.val();
-      task_array.push(Object.values(childData));
+        var childKey = childSnapshot.key;
+        var childData = childSnapshot.val();
+        task_array.push(Object.values(childData));
       });
       for(var i, i = 0; i < task_array.length; i++){
-          task_date = task_array[i][0];
-          task_hadir = task_array[i][1];
-          task_key = task_array[i][2];
-          task_title = task_array[i][3];  
-
-          task_container = document.createElement("div");
-          task_container.setAttribute("class", "task_container");
-          task_container.setAttribute("data-key", task_key);
-      
-          if(task_hadir==="Hadir"){
-              presentHadir += 1;
-          }else if(task_hadir==="Tidak Hadir"){
-              presentTidakHadir += 1;
-          }else{
-              presentRagu += 1;
-          }
-
-          // TASK DATA  
-          task_data = document.createElement('div');
-          task_data.setAttribute('id', 'task_data');
-
-          task_data1 = document.createElement('div');
-          task_data1.setAttribute('id', 'task_data1');
-      
-          title = document.createElement('p');
-          title.setAttribute('id', 'task_title');
-          title.innerHTML = task_title;
-
-          hadir = document.createElement('p');
-          hadir.setAttribute('id', 'task_hadir');
-          hadir.innerHTML = task_hadir + "-";
-
-          date = document.createElement('p');
-          date.setAttribute('id', 'task_date');
-          date.innerHTML = "-" + task_date + "&nbsp; | &nbsp;";
-
-          unfinished_task_container.append(task_container);
-          task_container.append(task_data);
-          task_data.append(title);
-          task_data.append(task_data1)
-          task_data1.append(date);
-          task_data1.append(hadir);
-      }
-      jmlHadir = document.getElementById("jumlah-hadir");
-      jmlTidakHadir = document.getElementById("jumlah-tidak-hadir");
-      jmlRagu = document.getElementById("jumlah-ragu");
-      jmlHadir.innerHTML = presentHadir;
-      jmlTidakHadir.innerHTML = presentTidakHadir;
-      jmlRagu.innerHTML = presentRagu;
-  });
+        task_nama = task_array[i][1];
+        task_key = task_array[i][0];
+        task_ucapan = task_array[i][2];  
+  
+        task_container = document.createElement("div");
+        task_container.setAttribute("class", "task_container");
+        task_container.setAttribute("data-key", task_key);
+  
+        // TASK DATA  
+        task_data = document.createElement('div');
+        task_data.setAttribute('id', 'task_data');
+  
+        ucapan = document.createElement('p');
+        ucapan.setAttribute('id', 'task_ucapan');
+        ucapan.innerHTML = task_ucapan;
+  
+        nama = document.createElement('p');
+        nama.setAttribute('id', 'task_nama');
+        nama.innerHTML = "-" + task_nama + "-";
 
 
   
-
-
-}
+        unfinished_task_container.append(task_container);
+        task_container.append(task_data);
+        task_data.append(ucapan);
+        task_data.append(nama);
+      }
+  
+    });
+    
+  }
 
   function copyToClipboard(elementId) {
 
