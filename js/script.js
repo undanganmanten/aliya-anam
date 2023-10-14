@@ -1,13 +1,13 @@
-function getParameterByName(name, url = window.location.href) {
-  name = name.replace(/[\[\]]/g, '\\$&');
-  var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-       results = regex.exec(url);
-  if (!results) return null;
-  if (!results[2]) return '';
-  return decodeURIComponent(results[2].replace(/\+/g, ' '));
-}
-// document.title = getParameterByName('to');
-document.querySelector('#to').innerHTML = getParameterByName('to');
+// function getParameterByName(name, url = window.location.href) {
+//   name = name.replace(/[\[\]]/g, '\\$&');
+//   var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+//        results = regex.exec(url);
+//   if (!results) return null;
+//   if (!results[2]) return '';
+//   return decodeURIComponent(results[2].replace(/\+/g, ' '));
+// }
+// // document.title = getParameterByName('to');
+// document.querySelector('#to').innerHTML = getParameterByName('to');
 
 $(window).on("load",function(){
   $(".loader-wrapper").fadeOut("slow");
@@ -80,20 +80,20 @@ var x = setInterval(function() {
 }, 1000);
 
 
-var slideIndex = 0;
-showSlides();
+// var slideIndex = 0;
+// showSlides();
 
-function showSlides() {
-  var i;
-  var slides = document.getElementsByClassName("mySlides");
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";  
-  }
-  slideIndex++;
-  if (slideIndex > slides.length) {slideIndex = 1}    
-  slides[slideIndex-1].style.display = "block"; 
-  setTimeout(showSlides, 3500); // Change image every 2 seconds
-}
+// function showSlides() {
+//   var i;
+//   var slides = document.getElementsByClassName("mySlides");
+//   for (i = 0; i < slides.length; i++) {
+//     slides[i].style.display = "none";  
+//   }
+//   slideIndex++;
+//   if (slideIndex > slides.length) {slideIndex = 1}    
+//   slides[slideIndex-1].style.display = "block"; 
+//   setTimeout(showSlides, 3500); // Change image every 2 seconds
+// }
 
 
 
@@ -117,7 +117,7 @@ var firebaseConfig = {
   
     if(input_box.value.length != 0 && input_date.value.length != 0){
       // our boxes have data and we take database
-      var key = firebase.database().ref().child("pina").push().key;
+      var key = firebase.database().ref().child("aliya").push().key;
       var task = {
         ucapan: input_box.value,
         nama: input_date.value,
@@ -125,7 +125,7 @@ var firebaseConfig = {
       };
   
       var updates = {};
-      updates["/pina/" + key] = task;
+      updates["/aliya/" + key] = task;
       firebase.database().ref().update(updates);
       create_unfinished_task();
       swal("Pesan telah terkirim", "Silakan cek pesan anda di kolom yang sudah ada", "success");
@@ -140,7 +140,7 @@ function create_unfinished_task(){
     unfinished_task_container.innerHTML = "";
   
     task_array = [];
-    firebase.database().ref("pina").once('value', function(snapshot) {
+    firebase.database().ref("aliya").once('value', function(snapshot) {
       snapshot.forEach(function(childSnapshot) {
         var childKey = childSnapshot.key;
         var childData = childSnapshot.val();
